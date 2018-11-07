@@ -1,0 +1,37 @@
+{
+  "name": "apollo-hooks",
+  "version": "1.0.0",
+  "description": "Hooks for Apollo",
+  "main": "index.js",
+  "repository": "https://github.com/nicolaslopezj/apollo-hooks",
+  "author": "nicolaslopezj",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "cross-env ES_MODULES=true babel src -d lib",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-fast-compare": "^2.0.2"
+  },
+  "peerDependencies": {
+    "apollo-client": "*",
+    "apollo-link": "*",
+    "react": "^16.7.0-alpha.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@types/graphql": "^14.0.3",
+    "@types/react": "^16.4.18",
+    "apollo-client": "^2.4.4",
+    "apollo-link": "^1.2.3",
+    "cross-env": "^5.2.0",
+    "eslint-config-orionsoft": "^1.3.0",
+    "graphql": "^14.0.2",
+    "typescript": "^3.1.3"
+  }
+}
