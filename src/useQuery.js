@@ -38,7 +38,8 @@ export default function useQuery(
   )
 
   const helpers = {
-    fetchMore: opts => observableQuery.current.fetchMore(opts)
+    fetchMore: opts => observableQuery.current.fetchMore(opts),
+    refetch: opts => observableQuery.current.refetch(opts)
   }
 
   if (
