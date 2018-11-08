@@ -7,5 +7,8 @@ export default function useQuery(query, variables, passedOptions) {
     ...passedOptions
   }
   const result = useQueryBase(query, options)
-  return result.data
+  return {
+    ...result.data,
+    ...result
+  }
 }
