@@ -8,6 +8,9 @@ export default function useQuery(
   variables,
   {context: apolloContextOptions, ...restOptions} = {}
 ) {
+  const defaultOptions = {
+    fetchPolicy: 'cache-and-network'
+  }
   const modifyResult = result => ({...result.data, ...result})
   const client = useClient()
   const [result, setResult] = useState()
@@ -57,6 +60,7 @@ export default function useQuery(
     const watchedQuery = client.watchQuery({
       query,
       variables,
+      ...defaultOptions,
       ...restOptions
     })
     observableQuery.current = watchedQuery
