@@ -1,3 +1,8 @@
+/**
+ * This code is from
+ * https://github.com/trojanowski/react-apollo-hooks/blob/master/src/index.js
+ */
+
 import useClient from './useClient'
 
 export default function useMutation(mutation, baseOptions) {
