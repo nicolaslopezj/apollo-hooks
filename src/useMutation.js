@@ -15,9 +15,6 @@ export default function useMutation(mutation, baseOptions) {
       ...localOptions
     })
 
-    return {
-      ...result.data,
-      ...result
-    }
+    return result.data
   }
 }
