@@ -1,6 +1,6 @@
 {
   "name": "apollo-hooks",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Hooks for Apollo",
   "main": "index.js",
   "repository": "https://github.com/nicolaslopezj/apollo-hooks",
