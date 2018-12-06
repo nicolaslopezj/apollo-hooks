@@ -37,7 +37,7 @@ export default function useQueryBase(options) {
     observableQuery.setOptions(options)
   }
 
-  if (result.partial) {
+  if (result.partial && options.fetchPolicy !== 'cache-only') {
     throw getResultPromise(observableQuery)
   }
 
