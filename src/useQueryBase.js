@@ -43,7 +43,7 @@ export default function useQueryBase(options) {
 
   resultRef.current = result
 
-  if (result.errors) {
+  if (result.errors && result.errors.length) {
     const message = result.errors[0].message
     const error = new Error(message)
     error.isApolloError = true
