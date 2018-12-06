@@ -24,8 +24,8 @@ export default function useQueryBase(options) {
   const result = observableQuery.currentResult()
 
   useEffect(() => {
-    const subscription = observableQuery.subscribe(() => {
-      if (!isEqual(resultRef.current, result)) {
+    const subscription = observableQuery.subscribe(nextResult => {
+      if (!resultRef.current || !isEqual(resultRef.current.data, nextResult.data)) {
         forceUpdate()
       }
     })
