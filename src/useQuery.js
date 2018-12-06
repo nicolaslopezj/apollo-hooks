@@ -4,8 +4,9 @@ import useQueryBase from './useQueryBase'
 export default function useQuery(query, variables, passedOptions) {
   const options = {
     query,
-    fetchPolicy: 'cache-and-network',
     variables,
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
     ...passedOptions
   }
   const result = useQueryBase(options)
