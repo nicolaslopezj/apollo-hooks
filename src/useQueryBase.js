@@ -51,5 +51,18 @@ export default function useQueryBase(options) {
     throw error
   }
 
-  return {...observableQuery, ...result}
+  const helpers = {
+    fetchMore: observableQuery.fetchMore.bind(observableQuery),
+    refetch: observableQuery.refetch.bind(observableQuery),
+    startPolling: observableQuery.startPolling.bind(observableQuery),
+    stopPolling: observableQuery.stopPolling.bind(observableQuery),
+    subscribeToMore: observableQuery.subscribeToMore.bind(observableQuery),
+    updateQuery: observableQuery.updateQuery.bind(observableQuery)
+  }
+
+  return {
+    ...result,
+    observableQuery,
+    ...helpers
+  }
 }
