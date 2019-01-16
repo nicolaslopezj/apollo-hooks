@@ -2,7 +2,7 @@ import {useEffect, useRef} from 'react'
 import useClient from './useClient'
 import useForceUpdate from './useForceUpdate'
 import isEqual from 'react-fast-compare'
-import {getCachedObservableQuery, invalidateCachedObservableQuery} from './queryCache'
+import {getCachedObservableQuery, invalidateCachedObservableQuery, getCacheKey} from './queryCache'
 
 const getResultPromise = function(observableQuery) {
   return new Promise(async resolve => {
@@ -23,14 +23,22 @@ export default function useQueryBase(options) {
   const optionsRef = useRef(options)
   const result = observableQuery.currentResult()
 
+  useEffect(
+    () => {
+      return () => invalidateCachedObservableQuery(client, optionsRef.current)
+    },
+    [getCacheKey(options)]
+  )
+
   useEffect(() => {
     const subscription = observableQuery.subscribe(nextResult => {
       if (!resultRef.current || !isEqual(resultRef.current.data, nextResult.data)) {
         forceUpdate()
       }
     })
-    invalidateCachedObservableQuery(client, optionsRef.current)
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   if (!isEqual(optionsRef.current, options)) {
