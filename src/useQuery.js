@@ -7,6 +7,7 @@ export default function useQuery(query, variables, passedOptions) {
     variables,
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
+    notifyOnNetworkStatusChange: false,
     ...passedOptions
   }
   const result = useQueryBase(options)
