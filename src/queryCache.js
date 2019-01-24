@@ -9,7 +9,6 @@ export function getCachedObservableQuery(client, options) {
   const cacheKey = getCacheKey(options)
   let observableQuery = queriesForClient.get(cacheKey)
   if (observableQuery == null) {
-    console.log('new query')
     observableQuery = client.watchQuery(options)
     // this is added to only fetch once
     observableQuery.subscribe(() => {})
