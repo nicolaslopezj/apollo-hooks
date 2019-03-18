@@ -21,12 +21,16 @@ export default function useSubscriptionBase(options) {
   useEffect(() => {
     const subscription = observableQuery.subscribe({
       next: params => {
-        if (options.onSubscriptionData) {
-          options.onSubscriptionData(params.data, params)
+        if (options.onData) {
+          options.onData(params.data, params)
         }
       },
       error: error => {
-        console.error('Error in subscription', error)
+        if (options.onError) {
+          options.onError(error)
+        } else {
+          console.error('Error in subscription', error)
+        }
       }
     })
     return () => {
