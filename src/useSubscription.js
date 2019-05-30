@@ -7,6 +7,5 @@ export default function useQuery(query, variables, passedOptions) {
     variables,
     ...passedOptions
   }
-  const result = useSubscriptionBase(options)
-  return result
+  return useSubscriptionBase(options)
 }
