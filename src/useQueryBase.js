@@ -4,8 +4,8 @@ import useForceUpdate from './useForceUpdate'
 import isEqual from 'react-fast-compare'
 import {getCachedObservableQuery, invalidateCachedObservableQuery, getCacheKey} from './queryCache'
 import getHelpers from './getHelpers'
-import getResultPromise from './getResultPromise'
 import handleError from './handleError'
+import getResultPromise from './getResultPromise'
 
 export default function useQueryBase(options) {
   const client = useClient()
@@ -30,12 +30,14 @@ export default function useQueryBase(options) {
     }
   }, [])
 
+  const promise = getResultPromise(observableQuery)
+
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)
   }
 
   if (result.partial && options.fetchPolicy !== 'cache-only') {
-    throw getResultPromise(observableQuery)
+    throw promise
   }
 
   resultRef.current = result
