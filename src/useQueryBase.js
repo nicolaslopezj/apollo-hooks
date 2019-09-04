@@ -3,17 +3,9 @@ import useClient from './useClient'
 import useForceUpdate from './useForceUpdate'
 import isEqual from 'react-fast-compare'
 import {getCachedObservableQuery, invalidateCachedObservableQuery, getCacheKey} from './queryCache'
-
-const getResultPromise = function(observableQuery) {
-  return new Promise(async resolve => {
-    const subscription = observableQuery.subscribe(nextResult => {
-      if (!nextResult.loading) {
-        subscription.unsubscribe()
-        resolve()
-      }
-    })
-  })
-}
+import getHelpers from './getHelpers'
+import getResultPromise from './getResultPromise'
+import handleError from './handleError'
 
 export default function useQueryBase(options) {
   const client = useClient()
@@ -23,12 +15,9 @@ export default function useQueryBase(options) {
   const optionsRef = useRef(options)
   const result = observableQuery.currentResult()
 
-  useEffect(
-    () => {
-      return () => invalidateCachedObservableQuery(client, optionsRef.current)
-    },
-    [getCacheKey(options)]
-  )
+  useEffect(() => {
+    return () => invalidateCachedObservableQuery(client, optionsRef.current)
+  }, [getCacheKey(options)])
 
   useEffect(() => {
     const subscription = observableQuery.subscribe(nextResult => {
@@ -52,25 +41,14 @@ export default function useQueryBase(options) {
   resultRef.current = result
 
   if (result.errors && result.errors.length) {
-    const message = result.errors[0].message
-    const error = new Error(message)
-    error.isApolloError = true
-    error.errors = result.errors
-    throw error
+    handleError(result)
   }
 
-  const helpers = {
-    fetchMore: observableQuery.fetchMore.bind(observableQuery),
-    refetch: observableQuery.refetch.bind(observableQuery),
-    startPolling: observableQuery.startPolling.bind(observableQuery),
-    stopPolling: observableQuery.stopPolling.bind(observableQuery),
-    subscribeToMore: observableQuery.subscribeToMore.bind(observableQuery),
-    updateQuery: observableQuery.updateQuery.bind(observableQuery)
-  }
+  const helpers = getHelpers(observableQuery)
 
   return {
-    ...result,
     observableQuery,
+    ...result,
     ...helpers
   }
 }
