@@ -21,7 +21,11 @@ export default function useQueryBase(options) {
 
   useEffect(() => {
     const subscription = observableQuery.subscribe(nextResult => {
-      if (!resultRef.current || !isEqual(resultRef.current.data, nextResult.data)) {
+      if (
+        !resultRef.current ||
+        !isEqual(resultRef.current.data, nextResult.data) ||
+        resultRef.current.networkStatus !== nextResult.networkStatus
+      ) {
         forceUpdate()
       }
     })
