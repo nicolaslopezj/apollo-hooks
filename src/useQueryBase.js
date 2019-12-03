@@ -34,13 +34,12 @@ export default function useQueryBase(options) {
     }
   }, [])
 
-  const promise = getResultPromise(observableQuery)
-
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)
   }
 
-  if (result.partial && options.fetchPolicy !== 'cache-only') {
+  if (!options.partial && result.partial && options.fetchPolicy !== 'cache-only') {
+    const promise = getResultPromise(observableQuery)
     throw promise
   }
 
