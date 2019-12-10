@@ -11,7 +11,8 @@ export function getCachedObservableQuery(client, options) {
   if (observableQuery == null) {
     observableQuery = client.watchQuery(options)
     // this is added to only fetch once
-    observableQuery.subscribe(() => {})
+    const subscription = observableQuery.subscribe(() => {})
+    observableQuery._fetchOnceSubscription = subscription
     queriesForClient.set(cacheKey, observableQuery)
   }
   return observableQuery
@@ -19,6 +20,10 @@ export function getCachedObservableQuery(client, options) {
 
 export function invalidateCachedObservableQuery(client, options) {
   const queriesForClient = getCachedQueriesForClient(client)
+  const currentObservable = getCachedObservableQuery(client, options)
+  if (currentObservable && currentObservable._fetchOnceSubscription) {
+    currentObservable._fetchOnceSubscription.unsubscribe()
+  }
   const cacheKey = getCacheKey(options)
   queriesForClient.delete(cacheKey)
 }

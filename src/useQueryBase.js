@@ -16,10 +16,6 @@ export default function useQueryBase(options) {
   const result = observableQuery.currentResult()
 
   useEffect(() => {
-    return () => invalidateCachedObservableQuery(client, optionsRef.current)
-  }, [getCacheKey(options)])
-
-  useEffect(() => {
     const subscription = observableQuery.subscribe(nextResult => {
       if (
         !resultRef.current ||
@@ -31,8 +27,9 @@ export default function useQueryBase(options) {
     })
     return () => {
       subscription.unsubscribe()
+      invalidateCachedObservableQuery(client, options)
     }
-  }, [])
+  }, [getCacheKey(options)])
 
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)
