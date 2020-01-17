@@ -8,7 +8,9 @@ export default function useQuery(passedOptions) {
     notifyOnNetworkStatusChange: false,
     ...passedOptions
   }
+
   const result = useQueryBase(options)
+
   return {
     ...result.data,
     ...result
