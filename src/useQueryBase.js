@@ -43,7 +43,11 @@ export default function useQueryBase(options) {
   resultRef.current = result
 
   if (result.errors && result.errors.length) {
-    handleError(result, options)
+    if (options.handleError) {
+      options.handleError(result, options)
+    } else {
+      handleError(result, options)
+    }
   }
 
   const helpers = getHelpers(observableQuery)
