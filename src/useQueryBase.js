@@ -10,12 +10,14 @@ import getResultPromise from './getResultPromise'
 export default function useQueryBase(options) {
   const client = useClient()
   const forceUpdate = useForceUpdate()
-  const observableQuery = getCachedObservableQuery(client, options)
+  const observableQuery = options.omit ? null : getCachedObservableQuery(client, options)
   const resultRef = useRef(null)
   const optionsRef = useRef(options)
-  const result = observableQuery.currentResult()
+  const result = options.omit ? null : observableQuery.currentResult()
 
   useEffect(() => {
+    if (options.omit) return
+
     const subscription = observableQuery.subscribe(nextResult => {
       if (
         !resultRef.current ||
@@ -30,6 +32,8 @@ export default function useQueryBase(options) {
       invalidateCachedObservableQuery(client, options)
     }
   }, [getCacheKey(options)])
+
+  if (options.omit) return {}
 
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)
