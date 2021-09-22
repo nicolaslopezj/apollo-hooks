@@ -1,6 +1,5 @@
-import {useEffect, useRef} from 'react'
+import {useEffect, useRef, useReducer} from 'react'
 import useClient from './useClient'
-import useForceUpdate from './useForceUpdate'
 import isEqual from 'react-fast-compare'
 import {getCachedObservableQuery, invalidateCachedObservableQuery, getCacheKey} from './queryCache'
 import getHelpers from './getHelpers'
@@ -9,10 +8,10 @@ import getResultPromise from './getResultPromise'
 
 export default function useQueryBase(options) {
   const client = useClient()
-  const forceUpdate = useForceUpdate()
   const observableQuery = options.omit ? null : getCachedObservableQuery(client, options)
   const resultRef = useRef(null)
   const optionsRef = useRef(options)
+  const forceUpdate = useReducer(x => x + 1, 0)[1]
   const result = options.omit ? null : observableQuery.currentResult()
 
   useEffect(() => {
