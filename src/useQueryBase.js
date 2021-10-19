@@ -7,7 +7,7 @@ import handleError from './handleError'
 import getResultPromise from './getResultPromise'
 
 export default function useQueryBase(options) {
-  const client = useClient()
+  const client = useClient(options.clientName)
   const observableQuery = options.omit ? null : getCachedObservableQuery(client, options)
   const resultRef = useRef(null)
   const optionsRef = useRef(options)

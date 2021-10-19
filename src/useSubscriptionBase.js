@@ -3,31 +3,28 @@ import useClient from './useClient'
 import {getCacheKey} from './subscriptionQueryCache'
 
 export default function useSubscriptionBase(options) {
-  const client = useClient()
+  const client = useClient(options.clientName)
 
-  useEffect(
-    () => {
-      if (options.skip === true) return
+  useEffect(() => {
+    if (options.skip === true) return
 
-      const subscription = client.subscribe(options).subscribe({
-        next: params => {
-          if (options.onData) {
-            options.onData(params.data, params)
-          }
-        },
-        error: error => {
-          if (options.onError) {
-            options.onError(error)
-          } else {
-            console.error('Error in subscription', error)
-          }
+    const subscription = client.subscribe(options).subscribe({
+      next: params => {
+        if (options.onData) {
+          options.onData(params.data, params)
         }
-      })
-
-      return () => {
-        subscription.unsubscribe()
+      },
+      error: error => {
+        if (options.onError) {
+          options.onError(error)
+        } else {
+          console.error('Error in subscription', error)
+        }
       }
-    },
-    [getCacheKey(options)]
-  )
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [getCacheKey(options)])
 }

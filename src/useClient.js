@@ -5,13 +5,9 @@
 
 import ApolloContext from './ApolloContext'
 import {useContext} from 'react'
+import getClient from './getClient'
 
-export default function useClient() {
-  const client = useContext(ApolloContext)
-  if (!client) {
-    throw new Error(
-      `Could not find "client" in the context of ApolloConsumer. Wrap the root component in an <ApolloProvider>`
-    )
-  }
-  return client
+export default function useClient(clientName) {
+  const clients = useContext(ApolloContext)
+  return getClient(clients, clientName)
 }
