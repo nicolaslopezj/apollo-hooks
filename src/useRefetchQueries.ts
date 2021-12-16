@@ -2,13 +2,13 @@ import useClient from './useClient'
 import isArray from 'lodash/isArray'
 
 export default function useRefetchQueries(options: any = {}) {
-  const client = useClient(options.clientName)
+  const client = useClient(options.clientName) as any
 
   return async names => {
     names = isArray(names) ? names : [names]
     const refetchQueryPromises = []
 
-    const qManager = client.queryManager as any
+    const qManager = client.queryManager
     qManager.queries.forEach(({observableQuery}) => {
       if (observableQuery && names.includes(observableQuery.queryName)) {
         refetchQueryPromises.push(observableQuery.refetch())

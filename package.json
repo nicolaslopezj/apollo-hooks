@@ -15,19 +15,18 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "4.17.21",
     "react-fast-compare": "^3.2.0"
   },
   "peerDependencies": {
-    "apollo-client": "*",
-    "apollo-link": "*",
+    "@apollo/client": "*",
     "react": "^16.7.0"
   },
   "devDependencies": {
+    "@apollo/client": "^3.5.6",
     "@types/graphql": "^14.5.0",
+    "@types/lodash": "^4.14.178",
     "@types/react": "^17.0.37",
-    "apollo-client": "^2.6.10",
-    "apollo-link": "^1.2.14",
     "eslint-config-orionsoft": "^2.2.0",
     "graphql": "^16.1.0",
     "react": "^17.0.2",

@@ -1,85 +1,29 @@
-import {useEffect, useRef, useReducer} from 'react'
+import {QueryHookOptions, useQuery} from '@apollo/client'
+import {suspend} from './suspend'
 import useClient from './useClient'
-import isEqual from 'react-fast-compare'
-import {
-  getCachedObservableQuery,
-  invalidateCachedObservableQuery,
-  getCacheKey,
-  ApolloHooksObservableQuery
-} from './queryCache'
-import getHelpers, {ApolloHooksHelpers} from './getHelpers'
-import handleError from './handleError'
-import getResultPromise from './getResultPromise'
-import {ApolloCurrentResult, WatchQueryOptions} from 'apollo-client'
 
-export type UseQueryOptions<Variables> = WatchQueryOptions<Variables> & {
+export type UseQueryOptions<TData, TVariables> = QueryHookOptions<TData, TVariables> & {
+  /**
+   * Select the client to use for this query.
+   */
   clientName?: string
-  omit?: boolean
+  /**
+   * Set to false to disable Suspense.
+   */
   partial?: boolean
-  handleError?: Function
 }
 
-export type UseQueryResult<ResultType, Variables> = ApolloCurrentResult<ResultType> &
-  ApolloHooksHelpers<ResultType, Variables> & {
-    observableQuery?: ApolloHooksObservableQuery<ResultType, Variables>
-  }
-
-export default function useQueryBase<ResultType = any, Variables = any>(
-  options: UseQueryOptions<Variables>
-): UseQueryResult<ResultType, Variables> {
+export default function useQueryBase<TData = any, TVariables = any>(
+  options: UseQueryOptions<TData, TVariables>
+) {
   const client = useClient(options.clientName)
-  const observableQuery = options.omit
-    ? null
-    : getCachedObservableQuery<ResultType, Variables>(client, options)
-  const resultRef = useRef(null)
-  const optionsRef = useRef(options)
-  const forceUpdate = useReducer(x => x + 1, 0)[1]
-  const result = options.omit ? null : observableQuery.currentResult()
+  const result = useQuery<TData, TVariables>(options.query, {...options, client})
 
-  useEffect(() => {
-    if (options.omit) return
-
-    const subscription = observableQuery.subscribe(nextResult => {
-      if (
-        !resultRef.current ||
-        !isEqual(resultRef.current.data, nextResult.data) ||
-        resultRef.current.networkStatus !== nextResult.networkStatus
-      ) {
-        forceUpdate()
-      }
-    })
-    return () => {
-      subscription.unsubscribe()
-      invalidateCachedObservableQuery(client, options)
-    }
-  }, [getCacheKey(options)])
-
-  const helpers = getHelpers<ResultType, Variables>(observableQuery)
-
-  if (options.omit) return {...helpers} as any as UseQueryResult<ResultType, Variables>
-
-  if (!isEqual(optionsRef.current, options)) {
-    observableQuery.setOptions(options)
-  }
-
-  if (!options.partial && result.partial && options.fetchPolicy !== 'cache-only') {
-    const promise = getResultPromise(observableQuery)
-    throw promise
-  }
-
-  resultRef.current = result
-
-  if (result.errors && result.errors.length) {
-    if (options.handleError) {
-      options.handleError(result, options)
-    } else {
-      handleError(result, options)
+  if (!options.partial) {
+    if (result.networkStatus === 7) {
+      suspend(new Promise(resolve => result.networkStatus !== 7 && resolve(null))).read()
     }
   }
 
-  return {
-    observableQuery,
-    ...result,
-    ...helpers
-  }
+  return result
 }
