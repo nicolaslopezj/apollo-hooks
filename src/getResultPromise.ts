@@ -3,7 +3,7 @@ const createPromise = observableQuery => {
     const subscription = observableQuery.subscribe(nextResult => {
       if (!nextResult.loading) {
         subscription.unsubscribe()
-        resolve()
+        resolve(null)
         observableQuery.resultPromise = null
       }
     })

@@ -1,7 +1,7 @@
 import useClient from './useClient'
 import isArray from 'lodash/isArray'
 
-export default function useRefetchQueries(options = {}) {
+export default function useRefetchQueries(options: any = {}) {
   const client = useClient(options.clientName)
 
   return async names => {

@@ -8,33 +8,29 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "babel src -d lib",
-    "watch": "node watch.js",
-    "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "exit 0",
+    "prepare": "yarn run build",
+    "clean": "rm -rf ./lib",
+    "build": "yarn run clean && tsc",
+    "watch": "tsc -w"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
-    "react-fast-compare": "^2.0.2"
+    "lodash": "^4.17.21",
+    "react-fast-compare": "^3.2.0"
   },
   "peerDependencies": {
     "apollo-client": "*",
     "apollo-link": "*",
-    "react": "^16.7.0-alpha.0"
+    "react": "^16.7.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "@types/graphql": "^14.0.3",
-    "@types/react": "^16.4.18",
-    "apollo-client": "^2.6.4",
-    "apollo-link": "^1.2.12",
-    "babel-core": "^6.26.3",
-    "colors": "^1.3.3",
-    "eslint-config-orionsoft": "^1.3.12",
-    "graphql": "^14.5.4",
-    "typescript": "^3.1.3"
+    "@types/graphql": "^14.5.0",
+    "@types/react": "^17.0.37",
+    "apollo-client": "^2.6.10",
+    "apollo-link": "^1.2.14",
+    "eslint-config-orionsoft": "^2.2.0",
+    "graphql": "^16.1.0",
+    "react": "^17.0.2",
+    "typescript": "^4.5.4"
   }
 }
