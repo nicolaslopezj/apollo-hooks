@@ -1,4 +1,4 @@
-import {ObservableQuery} from 'apollo-client'
+import {ObservableQuery} from '@apollo/client'
 
 export type ApolloHooksHelpers<TData, TVariables> = Pick<
   ObservableQuery<TData, TVariables>,

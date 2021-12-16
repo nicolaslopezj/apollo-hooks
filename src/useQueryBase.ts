@@ -10,31 +10,31 @@ import {
 import getHelpers, {ApolloHooksHelpers} from './getHelpers'
 import handleError from './handleError'
 import getResultPromise from './getResultPromise'
-import {ApolloCurrentResult, WatchQueryOptions} from 'apollo-client'
+import {ApolloQueryResult, WatchQueryOptions} from '@apollo/client'
 
-export type UseQueryOptions<Variables> = WatchQueryOptions<Variables> & {
+export type UseQueryOptions<TVariables> = WatchQueryOptions<TVariables> & {
   clientName?: string
   omit?: boolean
   partial?: boolean
   handleError?: Function
 }
 
-export type UseQueryResult<ResultType, Variables> = ApolloCurrentResult<ResultType> &
-  ApolloHooksHelpers<ResultType, Variables> & {
-    observableQuery?: ApolloHooksObservableQuery<ResultType, Variables>
+export type UseQueryResult<TData, TVariables> = ApolloQueryResult<TData> &
+  ApolloHooksHelpers<TData, TVariables> & {
+    observableQuery?: ApolloHooksObservableQuery<TData, TVariables>
   }
 
-export default function useQueryBase<ResultType = any, Variables = any>(
-  options: UseQueryOptions<Variables>
-): UseQueryResult<ResultType, Variables> {
+export default function useQueryBase<TData = any, TVariables = any>(
+  options: UseQueryOptions<TVariables>
+): UseQueryResult<TData, TVariables> {
   const client = useClient(options.clientName)
   const observableQuery = options.omit
     ? null
-    : getCachedObservableQuery<ResultType, Variables>(client, options)
+    : getCachedObservableQuery<TData, TVariables>(client, options)
   const resultRef = useRef(null)
   const optionsRef = useRef(options)
   const forceUpdate = useReducer(x => x + 1, 0)[1]
-  const result = options.omit ? null : observableQuery.currentResult()
+  const result = options.omit ? null : observableQuery.getCurrentResult()
 
   useEffect(() => {
     if (options.omit) return
@@ -54,9 +54,9 @@ export default function useQueryBase<ResultType = any, Variables = any>(
     }
   }, [getCacheKey(options)])
 
-  const helpers = getHelpers<ResultType, Variables>(observableQuery)
+  const helpers = getHelpers<TData, TVariables>(observableQuery)
 
-  if (options.omit) return {...helpers} as any as UseQueryResult<ResultType, Variables>
+  if (options.omit) return {...helpers} as any as UseQueryResult<TData, TVariables>
 
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)

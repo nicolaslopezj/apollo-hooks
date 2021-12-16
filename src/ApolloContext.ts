@@ -1,4 +1,4 @@
-import ApolloClient from 'apollo-client'
+import {ApolloClient} from '@apollo/client'
 import React from 'react'
 
 export interface ClientsMap {

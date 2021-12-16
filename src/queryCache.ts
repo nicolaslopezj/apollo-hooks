@@ -1,6 +1,6 @@
 // Source https://github.com/trojanowski/react-apollo-hooks/blob/master/src/queryCache.js
 
-import ApolloClient, {ObservableQuery, WatchQueryOptions} from 'apollo-client'
+import {ApolloClient, ObservableQuery, WatchQueryOptions} from '@apollo/client'
 import objToKey from './objectToKey'
 import {UseQueryOptions} from './useQueryBase'
 
