@@ -8,7 +8,8 @@ export default function useRefetchQueries(options: any = {}) {
     names = isArray(names) ? names : [names]
     const refetchQueryPromises = []
 
-    client.queryManager.queries.forEach(({observableQuery}) => {
+    const qManager = client.queryManager as any
+    qManager.queries.forEach(({observableQuery}) => {
       if (observableQuery && names.includes(observableQuery.queryName)) {
         refetchQueryPromises.push(observableQuery.refetch())
       }

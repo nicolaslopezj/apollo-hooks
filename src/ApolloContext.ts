@@ -1,3 +1,8 @@
+import ApolloClient from 'apollo-client'
 import React from 'react'
 
-export default React.createContext(null)
+export interface ClientsMap {
+  [key: string]: ApolloClient<any>
+}
+
+export default React.createContext<ClientsMap>(null)

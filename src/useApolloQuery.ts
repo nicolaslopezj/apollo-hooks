@@ -1,7 +1,7 @@
 import useQueryBase from './useQueryBase'
 
 // the useQuery with the API I like
-export default function useQuery(passedOptions) {
+export default function useQuery<TData, TVariables>(passedOptions) {
   const options = {
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
@@ -9,7 +9,7 @@ export default function useQuery(passedOptions) {
     ...passedOptions
   }
 
-  const result = useQueryBase(options)
+  const result = useQueryBase<TData, TVariables>(options)
 
   return {
     ...result.data,

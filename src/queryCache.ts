@@ -1,11 +1,25 @@
 // Source https://github.com/trojanowski/react-apollo-hooks/blob/master/src/queryCache.js
 
+import ApolloClient, {ObservableQuery, WatchQueryOptions} from 'apollo-client'
 import objToKey from './objectToKey'
+import {UseQueryOptions} from './useQueryBase'
 
-const cachedQueriesByClient = new WeakMap()
+export type ApolloHooksObservableQuery<ResultType, Variables> = ObservableQuery<
+  ResultType,
+  Variables
+> & {
+  _fetchOnceSubscription?: ZenObservable.Subscription
+}
+const cachedQueriesByClient = new Map<
+  ApolloClient<any>,
+  Map<string, ApolloHooksObservableQuery<any, any>>
+>()
 
-export function getCachedObservableQuery(client, options) {
-  const queriesForClient = getCachedQueriesForClient(client)
+export function getCachedObservableQuery<ResultType, Variables>(
+  client: ApolloClient<any>,
+  options: UseQueryOptions<Variables>
+) {
+  const queriesForClient = getCachedQueriesForClient<ResultType, Variables>(client)
   const cacheKey = getCacheKey(options)
   let observableQuery = queriesForClient.get(cacheKey)
   if (observableQuery == null) {
@@ -28,7 +42,9 @@ export function invalidateCachedObservableQuery(client, options) {
   queriesForClient.delete(cacheKey)
 }
 
-function getCachedQueriesForClient(client) {
+function getCachedQueriesForClient<ResultType, Variables>(
+  client: ApolloClient<any>
+): Map<string, ApolloHooksObservableQuery<ResultType, Variables>> {
   let queriesForClient = cachedQueriesByClient.get(client)
   if (queriesForClient == null) {
     queriesForClient = new Map()
@@ -37,6 +53,6 @@ function getCachedQueriesForClient(client) {
   return queriesForClient
 }
 
-export function getCacheKey(options) {
+export function getCacheKey(options: WatchQueryOptions) {
   return objToKey(options)
 }

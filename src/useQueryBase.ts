@@ -1,14 +1,36 @@
 import {useEffect, useRef, useReducer} from 'react'
 import useClient from './useClient'
 import isEqual from 'react-fast-compare'
-import {getCachedObservableQuery, invalidateCachedObservableQuery, getCacheKey} from './queryCache'
-import getHelpers from './getHelpers'
+import {
+  getCachedObservableQuery,
+  invalidateCachedObservableQuery,
+  getCacheKey,
+  ApolloHooksObservableQuery
+} from './queryCache'
+import getHelpers, {ApolloHooksHelpers} from './getHelpers'
 import handleError from './handleError'
 import getResultPromise from './getResultPromise'
+import {ApolloCurrentResult, WatchQueryOptions} from 'apollo-client'
 
-export default function useQueryBase(options) {
+export type UseQueryOptions<Variables> = WatchQueryOptions<Variables> & {
+  clientName?: string
+  omit?: boolean
+  partial?: boolean
+  handleError?: Function
+}
+
+export type UseQueryResult<ResultType, Variables> = ApolloCurrentResult<ResultType> &
+  ApolloHooksHelpers<ResultType, Variables> & {
+    observableQuery?: ApolloHooksObservableQuery<ResultType, Variables>
+  }
+
+export default function useQueryBase<ResultType = any, Variables = any>(
+  options: UseQueryOptions<Variables>
+): UseQueryResult<ResultType, Variables> {
   const client = useClient(options.clientName)
-  const observableQuery = options.omit ? null : getCachedObservableQuery(client, options)
+  const observableQuery = options.omit
+    ? null
+    : getCachedObservableQuery<ResultType, Variables>(client, options)
   const resultRef = useRef(null)
   const optionsRef = useRef(options)
   const forceUpdate = useReducer(x => x + 1, 0)[1]
@@ -32,7 +54,9 @@ export default function useQueryBase(options) {
     }
   }, [getCacheKey(options)])
 
-  if (options.omit) return {}
+  const helpers = getHelpers<ResultType, Variables>(observableQuery)
+
+  if (options.omit) return {...helpers} as any as UseQueryResult<ResultType, Variables>
 
   if (!isEqual(optionsRef.current, options)) {
     observableQuery.setOptions(options)
@@ -52,8 +76,6 @@ export default function useQueryBase(options) {
       handleError(result, options)
     }
   }
-
-  const helpers = getHelpers(observableQuery)
 
   return {
     observableQuery,
