@@ -2,7 +2,11 @@
   "name": "apollo-hooks",
   "version": "4.0.5",
   "description": "Hooks for Apollo",
-  "main": "./lib",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/lib"
+  ],
   "repository": "https://github.com/nicolaslopezj/apollo-hooks",
   "author": "nicolaslopezj",
   "license": "MIT",
