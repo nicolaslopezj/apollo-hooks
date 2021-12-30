@@ -6,7 +6,7 @@ import {MutationOptions} from '@apollo/client'
 import {omit} from 'lodash'
 
 export type UseMutateOptions<TData, TVariables> = MutationOptions<TData, TVariables, any> & {
-  clientName: string
+  clientName?: string
 }
 
 export default function useMutate() {
