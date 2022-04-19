@@ -4,6 +4,7 @@ import useClient from './useClient'
 import useClients from './useClients'
 import useMutate from './useMutate'
 import useQuery from './useQueryBase'
+import useApolloQuery from './useApolloQuery'
 import useRefetchQueries from './useRefetchQueries'
 import useSubscription from './useSubscriptionBase'
 import {gql} from '@apollo/client'
@@ -17,5 +18,6 @@ export {
   useSubscription,
   ApolloContext,
   ApolloProvider,
+  useApolloQuery,
   gql
 }

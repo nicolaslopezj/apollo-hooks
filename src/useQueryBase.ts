@@ -11,6 +11,7 @@ import getHelpers, {ApolloHooksHelpers} from './getHelpers'
 import handleError from './handleError'
 import getResultPromise from './getResultPromise'
 import {ApolloQueryResult, WatchQueryOptions} from '@apollo/client'
+import objectToKey from './objectToKey'
 
 export type UseQueryOptions<TVariables> = WatchQueryOptions<TVariables> & {
   clientName?: string
@@ -58,7 +59,8 @@ export default function useQueryBase<TData = any, TVariables = any>(
 
   if (options.omit) return {...helpers} as any as UseQueryResult<TData, TVariables>
 
-  if (!isEqual(optionsRef.current, options)) {
+  if (objectToKey(options) !== objectToKey(optionsRef.current)) {
+    optionsRef.current = options
     observableQuery.setOptions(options)
   }
 
