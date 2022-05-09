@@ -8,6 +8,7 @@ export type ApolloHooksHelpers<TData, TVariables> = Pick<
 export default function <ResultType, Variables>(
   observableQuery: ObservableQuery<ResultType, Variables>
 ): ApolloHooksHelpers<ResultType, Variables> {
+  if (!observableQuery) return {} as any // there is a problem with omit
   return {
     fetchMore: observableQuery.fetchMore.bind(observableQuery),
     refetch: observableQuery.refetch.bind(observableQuery),
