@@ -1,8 +1,8 @@
 {
   "name": "apollo-hooks",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Hooks for Apollo",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/apollo-hooks.d.ts",
   "files": [
     "dist"
   ],
@@ -24,7 +24,7 @@
     "clean": "rm -rf ./dist",
     "dev": "vite",
     "build": "vite build && yarn emit-types",
-    "emit-types": "tsc --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
+    "emit-types": "tsc"
   },
   "dependencies": {
     "lodash": "^4.17.21",
