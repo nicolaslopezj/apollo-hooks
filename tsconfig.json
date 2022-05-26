@@ -17,6 +17,6 @@
     "experimentalDecorators": true,
     "lib": ["es2020", "dom"],
     "jsx": "react",
-    "outFile": "./dist/apollo-hooks.d.ts"
+    "outDir": "dist"
   }
 }

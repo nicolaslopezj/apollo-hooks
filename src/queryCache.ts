@@ -10,16 +10,15 @@ export type ApolloHooksObservableQuery<ResultType, Variables> = ObservableQuery<
 > & {
   _fetchOnceSubscription?: ZenObservable.Subscription
 }
-const cachedQueriesByClient = new Map<
-  ApolloClient<any>,
-  Map<string, ApolloHooksObservableQuery<any, any>>
->()
+const cachedQueriesByClient = new Map<string, Map<string, ApolloHooksObservableQuery<any, any>>>()
 
 export function getCachedObservableQuery<ResultType, Variables>(
   client: ApolloClient<any>,
   options: UseQueryOptions<Variables>
 ) {
-  const queriesForClient = getCachedQueriesForClient<ResultType, Variables>(client)
+  const queriesForClient = getCachedQueriesForClient<ResultType, Variables>(
+    options.clientName || 'main'
+  )
   const cacheKey = getCacheKey(options)
   let observableQuery = queriesForClient.get(cacheKey)
   if (observableQuery == null) {
@@ -43,7 +42,7 @@ export function invalidateCachedObservableQuery(client, options) {
 }
 
 function getCachedQueriesForClient<ResultType, Variables>(
-  client: ApolloClient<any>
+  client: string
 ): Map<string, ApolloHooksObservableQuery<ResultType, Variables>> {
   let queriesForClient = cachedQueriesByClient.get(client)
   if (queriesForClient == null) {
