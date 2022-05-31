@@ -31,23 +31,26 @@ export function getCachedObservableQuery<ResultType, Variables>(
   return observableQuery
 }
 
-export function invalidateCachedObservableQuery(client, options) {
-  const queriesForClient = getCachedQueriesForClient(client)
-  const currentObservable = getCachedObservableQuery(client, options)
+export function invalidateCachedObservableQuery(clientName: string, options: any) {
+  const queriesForClient = getCachedQueriesForClient(clientName)
+  const cacheKey = getCacheKey(options)
+
+  const currentObservable = queriesForClient.get(cacheKey)
+
   if (currentObservable && currentObservable._fetchOnceSubscription) {
     currentObservable._fetchOnceSubscription.unsubscribe()
   }
-  const cacheKey = getCacheKey(options)
+
   queriesForClient.delete(cacheKey)
 }
 
 function getCachedQueriesForClient<ResultType, Variables>(
-  client: string
+  clientName: string
 ): Map<string, ApolloHooksObservableQuery<ResultType, Variables>> {
-  let queriesForClient = cachedQueriesByClient.get(client)
+  let queriesForClient = cachedQueriesByClient.get(clientName)
   if (queriesForClient == null) {
     queriesForClient = new Map()
-    cachedQueriesByClient.set(client, queriesForClient)
+    cachedQueriesByClient.set(clientName, queriesForClient)
   }
   return queriesForClient
 }

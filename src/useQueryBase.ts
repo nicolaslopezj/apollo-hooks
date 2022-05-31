@@ -51,7 +51,7 @@ export default function useQueryBase<TData = any, TVariables = any>(
     })
     return () => {
       subscription.unsubscribe()
-      invalidateCachedObservableQuery(client, options)
+      invalidateCachedObservableQuery(options.clientName, options)
     }
   }, [getCacheKey(options)])
 
