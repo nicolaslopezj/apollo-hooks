@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import useClients from './useClients'
 import getClient from './getClient'
 import {MutationOptions} from '@apollo/client'
-import {omit} from 'lodash'
+import omit from 'lodash/omit'
 
 export type UseMutateOptions<TData, TVariables> = MutationOptions<TData, TVariables, any> & {
   clientName?: string

@@ -1,5 +1,6 @@
 const path = require('path')
 const {defineConfig} = require('vite')
+const {visualizer} = require('rollup-plugin-visualizer')
 
 module.exports = defineConfig({
   build: {
@@ -11,7 +12,7 @@ module.exports = defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['react'],
+      external: ['react', '@apollo/client', 'graphql'],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
@@ -20,5 +21,6 @@ module.exports = defineConfig({
         }
       }
     }
-  }
+  },
+  plugins: [visualizer()]
 })
