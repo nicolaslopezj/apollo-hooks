@@ -1,6 +1,8 @@
 import useQueryBase from './useQueryBase'
 
-// the useQuery with the API I like
+/**
+ * @deprecated. Use useQuery instead.
+ */
 export default function useQuery(query, variables, passedOptions) {
   const options = {
     query,

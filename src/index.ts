@@ -4,6 +4,7 @@ import useClient from './useClient'
 import useClients from './useClients'
 import useMutate from './useMutate'
 import useQuery from './useQueryBase'
+import useQuery_deprecated from './useQuery'
 import useApolloQuery from './useApolloQuery'
 import useRefetchQueries from './useRefetchQueries'
 import useSubscription from './useSubscriptionBase'
@@ -12,6 +13,7 @@ import useMutation from './useMutation'
 
 export {
   useQuery,
+  useQuery_deprecated,
   useMutate,
   useMutation,
   useClient,
