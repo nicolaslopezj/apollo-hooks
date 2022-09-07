@@ -8,10 +8,12 @@ import useApolloQuery from './useApolloQuery'
 import useRefetchQueries from './useRefetchQueries'
 import useSubscription from './useSubscriptionBase'
 import {gql} from '@apollo/client'
+import useMutation from './useMutation'
 
 export {
   useQuery,
   useMutate,
+  useMutation,
   useClient,
   useClients,
   useRefetchQueries,
