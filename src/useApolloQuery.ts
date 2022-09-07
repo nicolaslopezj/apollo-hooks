@@ -1,4 +1,4 @@
-import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 import useQueryBase from './useQueryBase'
 
 // the useQuery with the API I like
@@ -13,7 +13,7 @@ export default function useQuery<TData, TVariables>(passedOptions) {
   const result = useQueryBase<TData, TVariables>(options)
 
   return {
-    ...clone(result.data),
+    ...cloneDeep(result.data),
     ...result
   }
 }
