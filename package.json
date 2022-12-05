@@ -1,6 +1,6 @@
 {
   "name": "apollo-hooks",
-  "version": "5.0.11",
+  "version": "5.0.12",
   "description": "Hooks for Apollo",
   "types": "./dist/index.d.ts",
   "files": [
