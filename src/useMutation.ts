@@ -3,7 +3,7 @@ import filterObject from './filterObject'
 import cloneDeep from 'lodash/cloneDeep'
 import getClient from './getClient'
 
-export default function useMutation(mutation, baseOptions) {
+export default function useMutation(mutation: any, baseOptions?: any) {
   const clients = useClients()
   return async (variables, localOptions = {}) => {
     const finalOptions = {...baseOptions, ...localOptions}
