@@ -7,7 +7,7 @@ import useQuery from './useQueryBase'
 import useQuery_deprecated from './useQuery'
 import useApolloQuery from './useApolloQuery'
 import useRefetchQueries from './useRefetchQueries'
-import useSubscription from './useSubscriptionBase'
+import useSubscription from './useSubscription'
 import {gql} from '@apollo/client'
 import useMutation from './useMutation'
 
