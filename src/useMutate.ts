@@ -11,7 +11,7 @@ export type UseMutateOptions<TData, TVariables> = MutationOptions<TData, TVariab
 
 export default function useMutate() {
   const clients = useClients()
-  return async <TData, TVariables>(options: UseMutateOptions<TData, TVariables>) => {
+  return async <TData = any, TVariables = any>(options: UseMutateOptions<TData, TVariables>) => {
     const finalVariables = filterObject(cloneDeep(options.variables || {}), '__typename')
     const client = getClient(clients, options.clientName)
     const result = await client.mutate<TData, TVariables>({
