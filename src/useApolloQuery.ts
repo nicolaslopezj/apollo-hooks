@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import useQueryBase from './useQueryBase'
 
 // the useQuery with the API I like
-export default function useQuery<TData, TVariables>(passedOptions) {
+export default function useQuery(passedOptions) {
   const options = {
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
@@ -10,7 +10,7 @@ export default function useQuery<TData, TVariables>(passedOptions) {
     ...passedOptions
   }
 
-  const result = useQueryBase<TData, TVariables>(options)
+  const result = useQueryBase<any, any>(options)
 
   return {
     ...cloneDeep(result.data),
