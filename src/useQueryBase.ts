@@ -36,15 +36,7 @@ export default function useQueryBase<TData = any, TVariables = any>(
   const optionsRef = useRef(options)
   const forceUpdate = useReducer(x => x + 1, 0)[1]
 
-  const emptyResult = {
-    data: {} as TData,
-    loading: false,
-    partial: false,
-    networkStatus: 0,
-    errors: undefined
-  }
-
-  const result = options.omit ? emptyResult : observableQuery.getCurrentResult()
+  const result = options.omit ? null : observableQuery.getCurrentResult()
 
   useEffect(() => {
     if (options.omit) return
@@ -66,7 +58,16 @@ export default function useQueryBase<TData = any, TVariables = any>(
 
   const helpers = getHelpers<TData, TVariables>(observableQuery)
 
-  if (options.omit) return {...helpers} as any as UseQueryResult<TData, TVariables>
+  if (options.omit) {
+    return {
+      data: {} as TData,
+      loading: false,
+      partial: false,
+      networkStatus: 0,
+      errors: undefined,
+      ...helpers
+    }
+  }
 
   if (objectToKey(options) !== objectToKey(optionsRef.current)) {
     optionsRef.current = options
