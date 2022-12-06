@@ -89,6 +89,11 @@ export default function useQueryBase<TData = any, TVariables = any>(
     }
   }
 
+  // when partial is true and omit is false, we return the partial data
+  if (!result.data) {
+    result.data = {} as TData
+  }
+
   return {
     observableQuery,
     ...result,
