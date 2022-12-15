@@ -14,7 +14,7 @@ const cachedQueriesByClient = new Map<string, Map<string, ApolloHooksObservableQ
 
 export function getCachedObservableQuery<ResultType, Variables>(
   client: ApolloClient<any>,
-  options: UseQueryOptions<Variables>
+  options: UseQueryOptions<ResultType, Variables>
 ) {
   const queriesForClient = getCachedQueriesForClient<ResultType, Variables>(
     options.clientName || 'main'

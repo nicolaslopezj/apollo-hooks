@@ -13,11 +13,14 @@ import getResultPromise from './getResultPromise'
 import {ApolloQueryResult, WatchQueryOptions} from '@apollo/client'
 import objectToKey from './objectToKey'
 
-export type UseQueryOptions<TVariables> = WatchQueryOptions<TVariables> & {
+export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables> & {
   clientName?: string
   omit?: boolean
   partial?: boolean
-  handleError?: Function
+  handleError?: (
+    result: ApolloQueryResult<TData>,
+    options: UseQueryOptions<TData, TVariables>
+  ) => void
 }
 
 export type UseQueryResult<TData, TVariables> = ApolloQueryResult<TData> &
@@ -26,7 +29,7 @@ export type UseQueryResult<TData, TVariables> = ApolloQueryResult<TData> &
   }
 
 export default function useQueryBase<TData = any, TVariables = any>(
-  options: UseQueryOptions<TVariables>
+  options: UseQueryOptions<TData, TVariables>
 ): UseQueryResult<TData, TVariables> {
   const client = useClient(options.clientName)
   const observableQuery = options.omit
