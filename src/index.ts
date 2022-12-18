@@ -11,6 +11,8 @@ import useSubscription from './useSubscription'
 import {gql} from '@apollo/client'
 import useMutation from './useMutation'
 
+export * from './useUpdatequery'
+
 export {
   useQuery,
   useQuery_deprecated,
