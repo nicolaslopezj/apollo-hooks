@@ -7,7 +7,9 @@ export interface UpdateQueryOptions<TData, TVariables> {
   variables?: UseQueryOptions<TData, TVariables>['variables']
 }
 
-export function useUpdateQuery<TData, TVariables>(options: UpdateQueryOptions<TData, TVariables>) {
+export function useUpdateQuery<TData = any, TVariables = any>(
+  options: UpdateQueryOptions<TData, TVariables>
+) {
   const client = useClient(options.clientName)
 
   return function updateQuery(
