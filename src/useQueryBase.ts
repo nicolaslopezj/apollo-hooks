@@ -32,6 +32,11 @@ export default function useQueryBase<TData = any, TVariables = any>(
   options: UseQueryOptions<TData, TVariables>
 ): UseQueryResult<TData, TVariables> {
   const client = useClient(options.clientName)
+
+  if (!options.fetchPolicy) {
+    options.fetchPolicy = 'cache-and-network'
+  }
+
   const observableQuery = options.omit
     ? null
     : getCachedObservableQuery<TData, TVariables>(client, options)
