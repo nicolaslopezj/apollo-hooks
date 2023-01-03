@@ -2,7 +2,7 @@ import ApolloContext from './ApolloContext'
 import ApolloProvider from './ApolloProvider'
 import useClient from './useClient'
 import useClients from './useClients'
-import useMutate from './useMutate'
+import useMutate, {UseMutateOptions} from './useMutate'
 import useQuery from './useQueryBase'
 import useQuery_deprecated from './useQuery'
 import useApolloQuery from './useApolloQuery'
@@ -25,5 +25,6 @@ export {
   ApolloContext,
   ApolloProvider,
   useApolloQuery,
-  gql
+  gql,
+  UseMutateOptions
 }
