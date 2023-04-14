@@ -10,10 +10,15 @@ import {
 import getHelpers, {ApolloHooksHelpers} from './getHelpers'
 import handleError from './handleError'
 import getResultPromise from './getResultPromise'
-import {ApolloQueryResult, WatchQueryOptions} from '@apollo/client'
+import {
+  ApolloQueryResult,
+  NetworkStatus,
+  OperationVariables,
+  WatchQueryOptions
+} from '@apollo/client'
 import objectToKey from './objectToKey'
 
-export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables> & {
+export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, TData> & {
   clientName?: string
   omit?: boolean
   partial?: boolean
@@ -28,9 +33,10 @@ export type UseQueryResult<TData, TVariables> = ApolloQueryResult<TData> &
     observableQuery?: ApolloHooksObservableQuery<TData, TVariables>
   }
 
-export default function useQueryBase<TData = any, TVariables = any>(
-  options: UseQueryOptions<TData, TVariables>
-): UseQueryResult<TData, TVariables> {
+export default function useQueryBase<
+  TData = any,
+  TVariables extends OperationVariables = OperationVariables
+>(options: UseQueryOptions<TData, TVariables>): UseQueryResult<TData, TVariables> {
   const client = useClient(options.clientName)
 
   if (!options.fetchPolicy) {
@@ -71,7 +77,7 @@ export default function useQueryBase<TData = any, TVariables = any>(
       data: {} as TData,
       loading: false,
       partial: false,
-      networkStatus: 0,
+      networkStatus: NetworkStatus.ready,
       errors: undefined,
       ...helpers
     }
