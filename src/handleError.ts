@@ -1,5 +1,5 @@
 import {ApolloQueryResult} from '@apollo/client'
-import {UseQueryOptions} from './useQueryBase'
+import {UseQueryOptions} from './useQuery'
 
 export default function defaultHandleError(
   result: ApolloQueryResult<any>,

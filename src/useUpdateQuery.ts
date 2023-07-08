@@ -1,5 +1,5 @@
 import useClient from './useClient'
-import {UseQueryOptions} from './useQueryBase'
+import {UseQueryOptions} from './useQuery'
 
 export interface UpdateQueryOptions<TData, TVariables> {
   clientName?: UseQueryOptions<TData, TVariables>['clientName']

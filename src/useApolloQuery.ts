@@ -1,21 +1,25 @@
-import cloneDeep from 'lodash/cloneDeep'
-import useQueryBase, {UseQueryOptions} from './useQueryBase'
+import {WatchQueryOptions, useQuery} from '@apollo/client'
+import useClient from './useClient'
+import omit from 'lodash/omit'
 
-// the useQuery with the API I like
-export default function useQuery<TData = any, TVariables = any>(
-  passedOptions: UseQueryOptions<TData, TVariables>
+export type UseApolloQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, TData> & {
+  clientName?: string
+}
+
+/**
+ * useQuery from apollo using the same defaults and multi client support
+ */
+export function useApolloQuery<TData, TVariables>(
+  options: UseApolloQueryOptions<TData, TVariables>
 ) {
-  const options: UseQueryOptions<TData, TVariables> = {
-    fetchPolicy: 'cache-and-network',
-    errorPolicy: 'all',
-    notifyOnNetworkStatusChange: false,
-    ...passedOptions
+  const client = useClient(options.clientName)
+
+  if (!options.fetchPolicy) {
+    options.fetchPolicy = 'cache-and-network'
   }
 
-  const result = useQueryBase<TData, TVariables>(options)
-
-  return {
-    ...cloneDeep(result.data),
-    ...result
-  }
+  return useQuery<TData, TVariables>(options.query, {
+    ...omit(options, 'clientName', 'query'),
+    client: client
+  })
 }

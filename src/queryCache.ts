@@ -2,13 +2,14 @@
 
 import {ApolloClient, ObservableQuery, WatchQueryOptions} from '@apollo/client'
 import objToKey from './objectToKey'
-import {UseQueryOptions} from './useQueryBase'
+import {UseQueryOptions} from './useQuery'
+import {Subscription} from 'zen-observable-ts'
 
 export type ApolloHooksObservableQuery<ResultType, Variables> = ObservableQuery<
   ResultType,
   Variables
 > & {
-  _fetchOnceSubscription?: ZenObservable.Subscription
+  _fetchOnceSubscription?: Subscription
 }
 const cachedQueriesByClient = new Map<string, Map<string, ApolloHooksObservableQuery<any, any>>>()
 

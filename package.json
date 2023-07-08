@@ -1,6 +1,6 @@
 {
   "name": "apollo-hooks",
-  "version": "5.3.4",
+  "version": "6.0.0",
   "description": "Hooks for Apollo",
   "types": "./dist/index.d.ts",
   "files": [
@@ -29,7 +29,7 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "object-hash": "3.0.0",
-    "react-fast-compare": "^3.2.0"
+    "react-fast-compare": "^3.2.2"
   },
   "peerDependencies": {
     "@apollo/client": "*",
@@ -37,19 +37,15 @@
     "react": "*"
   },
   "devDependencies": {
-    "@apollo/client": "^3.6.5",
+    "@apollo/client": "^3.7.17",
     "@types/graphql": "^14.5.0",
-    "@types/lodash": "^4.14.182",
-    "@types/object-hash": "^2.2.1",
-    "@types/react": "^18.0.9",
-    "apollo-client": "^2.6.10",
-    "apollo-link": "^1.2.14",
-    "eslint-config-orionsoft": "^2.2.0",
-    "graphql": "^16.5.0",
-    "react": "^17.0.2",
-    "rollup-plugin-visualizer": "^5.6.0",
-    "typescript": "^4.7.2",
-    "vite": "^2.9.9",
+    "@types/lodash": "^4.14.195",
+    "@types/react": "^18.2.14",
+    "graphql": "^16.7.1",
+    "react": "^18.2.0",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.2",
     "watch-cli": "^0.2.3"
   }
 }
