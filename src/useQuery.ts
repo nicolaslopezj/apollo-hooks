@@ -21,6 +21,9 @@ import objectToKey from './objectToKey'
 export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, TData> & {
   clientName?: string
   omit?: boolean
+  /**
+   * @deprecated if use are not using suspense, use useApolloQuery instead.
+   */
   partial?: boolean
   handleError?: (
     result: ApolloQueryResult<TData>,

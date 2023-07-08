@@ -10,6 +10,7 @@ import useMutation from './useMutation'
 export * from './useUpdateQuery'
 export * from './useMutate'
 export * from './useQuery'
+export * from './useApolloQuery'
 
 export {
   useMutation,
