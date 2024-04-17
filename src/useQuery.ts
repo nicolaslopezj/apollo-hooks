@@ -18,6 +18,9 @@ import {
 } from '@apollo/client'
 import objectToKey from './objectToKey'
 
+/**
+ * @deprecated if you wan't suspense support, use useSuspenseQuery instead. If you don't wan't suspense support, use useApolloQuery instead.
+ */
 export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, TData> & {
   clientName?: string
   omit?: boolean

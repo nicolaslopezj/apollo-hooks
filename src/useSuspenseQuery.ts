@@ -1,14 +1,17 @@
 import {
   DocumentNode,
   OperationVariables,
-  QueryHookOptions,
+  SuspenseQueryHookOptions,
   TypedDocumentNode,
-  useQuery
+  useSuspenseQuery as useApolloSuspenseQuery
 } from '@apollo/client'
 import useClient from './useClient'
 import omit from 'lodash/omit'
 
-export type UseApolloQueryOptions<TData, TVariables> = QueryHookOptions<TData, TVariables> & {
+export type UseSuspenseQueryOptions<TData, TVariables> = SuspenseQueryHookOptions<
+  TData,
+  TVariables
+> & {
   clientName?: string
   query: DocumentNode | TypedDocumentNode<TData, TVariables>
 }
@@ -16,17 +19,17 @@ export type UseApolloQueryOptions<TData, TVariables> = QueryHookOptions<TData, T
 /**
  * useQuery from apollo using the same defaults and multi client support
  */
-export function useApolloQuery<
+export function useSuspenseQuery<
   TData = any,
   TVariables extends OperationVariables = OperationVariables
->(options: UseApolloQueryOptions<TData, TVariables>) {
+>(options: UseSuspenseQueryOptions<TData, TVariables>) {
   const client = useClient(options.clientName)
 
   if (!options.fetchPolicy) {
     options.fetchPolicy = 'cache-and-network'
   }
 
-  const result = useQuery<TData, TVariables>(options.query, {
+  const result = useApolloSuspenseQuery<TData, TVariables>(options.query, {
     ...omit(options, 'clientName', 'query'),
     client: client
   })
