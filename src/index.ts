@@ -11,6 +11,8 @@ export * from './useUpdateQuery'
 export * from './useMutate'
 export * from './useQuery'
 export * from './useApolloQuery'
+export * from './useFragment'
+export * from './useSuspenseQuery'
 
 export {
   useMutation,
