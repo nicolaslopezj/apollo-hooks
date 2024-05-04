@@ -3,6 +3,7 @@ import {
   OperationVariables,
   SuspenseQueryHookOptions,
   TypedDocumentNode,
+  skipToken,
   useSuspenseQuery as useApolloSuspenseQuery
 } from '@apollo/client'
 import useClient from './useClient'
@@ -14,6 +15,7 @@ export type UseSuspenseQueryOptions<TData, TVariables> = SuspenseQueryHookOption
 > & {
   clientName?: string
   query: DocumentNode | TypedDocumentNode<TData, TVariables>
+  skip?: boolean
 }
 
 /**
@@ -29,10 +31,15 @@ export function useSuspenseQuery<
     options.fetchPolicy = 'cache-and-network'
   }
 
-  const result = useApolloSuspenseQuery<TData, TVariables>(options.query, {
-    ...omit(options, 'clientName', 'query'),
-    client: client
-  })
+  const result = useApolloSuspenseQuery<TData, TVariables>(
+    options.query,
+    options.skip
+      ? skipToken
+      : {
+          ...omit(options, 'clientName', 'query'),
+          client: client
+        }
+  )
 
   return {
     ...result,
