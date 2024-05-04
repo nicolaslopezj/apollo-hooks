@@ -4,7 +4,7 @@ import useClient from './useClient'
 import useClients from './useClients'
 import useRefetchQueries from './useRefetchQueries'
 import useSubscription from './useSubscription'
-import {gql} from '@apollo/client'
+import {gql, skipToken} from '@apollo/client'
 import useMutation from './useMutation'
 
 export * from './useUpdateQuery'
@@ -22,5 +22,6 @@ export {
   useSubscription,
   ApolloContext,
   ApolloProvider,
-  gql
+  gql,
+  skipToken
 }
