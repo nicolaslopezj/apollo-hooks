@@ -1,8 +1,8 @@
 {
   "name": "apollo-hooks",
-  "version": "7.2.2",
+  "version": "7.2.3",
   "description": "Hooks for Apollo",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
