@@ -1,13 +1,11 @@
-const path = require('path')
-const {defineConfig} = require('vite')
-const {visualizer} = require('rollup-plugin-visualizer')
+import {defineConfig} from 'vite'
 
-module.exports = defineConfig({
+export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: 'src/index.ts',
       name: 'apollo-hooks',
-      fileName: format => `apollo-hooks.${format}.js`
+      fileName: format => `apollo-hooks.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -17,10 +15,17 @@ module.exports = defineConfig({
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          react: 'React'
-        }
-      }
-    }
+          react: 'React',
+          '@apollo/client': 'ApolloClient',
+          graphql: 'GraphQL',
+        },
+      },
+    },
   },
-  plugins: [visualizer()]
+  plugins: [],
+  resolve: {
+    alias: {
+      '@': './src',
+    },
+  },
 })
