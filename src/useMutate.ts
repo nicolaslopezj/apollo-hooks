@@ -1,12 +1,16 @@
-import filterObject from './filterObject'
+import {DocumentNode, MutationOptions, TypedDocumentNode} from '@apollo/client'
 import cloneDeep from 'lodash/cloneDeep'
-import useClients from './useClients'
-import getClient from './getClient'
-import {MutationOptions} from '@apollo/client'
 import omit from 'lodash/omit'
+import filterObject from './filterObject'
+import getClient from './getClient'
+import useClients from './useClients'
 
-export type UseMutateOptions<TData, TVariables> = MutationOptions<TData, TVariables, any> & {
+export type UseMutateOptions<TData, TVariables> = Omit<
+  MutationOptions<TData, TVariables, any>,
+  'mutation'
+> & {
   clientName?: string
+  mutation: DocumentNode | TypedDocumentNode<TData, TVariables>
 }
 
 export function useMutate() {
@@ -16,7 +20,7 @@ export function useMutate() {
     const client = getClient(clients, options.clientName)
     const result = await client.mutate<TData, TVariables>({
       ...omit(options, 'clientName'),
-      variables: finalVariables
+      variables: finalVariables,
     })
     return result.data
   }
