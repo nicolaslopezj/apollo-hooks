@@ -1,3 +1,4 @@
+import {Unmasked} from '@apollo/client'
 import useClient from './useClient'
 import {UseQueryOptions} from './useQuery'
 
@@ -8,23 +9,23 @@ export interface UpdateQueryOptions<TData, TVariables> {
 }
 
 export function useUpdateQuery<TData = any, TVariables = any>(
-  options: UpdateQueryOptions<TData, TVariables>
+  options: UpdateQueryOptions<TData, TVariables>,
 ) {
   const client = useClient(options.clientName)
 
   return function updateQuery(
     updater: (previousResult: TData) => TData,
-    updaterOptions?: Omit<UpdateQueryOptions<TData, TVariables>, 'clientName'>
+    updaterOptions?: Omit<UpdateQueryOptions<TData, TVariables>, 'clientName'>,
   ) {
     const finalOptions = {
       query: updaterOptions?.query || options.query,
-      variables: updaterOptions?.variables || options.variables
+      variables: updaterOptions?.variables || options.variables,
     }
     const prevData = client.readQuery(finalOptions)
     const newData = updater(prevData)
     client.writeQuery({
       ...finalOptions,
-      data: newData
+      data: newData as Unmasked<TData>,
     })
   }
 }

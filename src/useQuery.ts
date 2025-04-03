@@ -1,22 +1,22 @@
-import {useEffect, useRef, useReducer} from 'react'
-import useClient from './useClient'
-import isEqual from 'react-fast-compare'
-import {
-  getCachedObservableQuery,
-  invalidateCachedObservableQuery,
-  getCacheKey,
-  ApolloHooksObservableQuery
-} from './queryCache'
-import getHelpers, {ApolloHooksHelpers} from './getHelpers'
-import handleError from './handleError'
-import getResultPromise from './getResultPromise'
 import {
   ApolloQueryResult,
   NetworkStatus,
   OperationVariables,
-  WatchQueryOptions
+  WatchQueryOptions,
 } from '@apollo/client'
+import {useEffect, useReducer, useRef} from 'react'
+import isEqual from 'react-fast-compare'
+import getHelpers, {ApolloHooksHelpers} from './getHelpers'
+import getResultPromise from './getResultPromise'
+import handleError from './handleError'
 import objectToKey from './objectToKey'
+import {
+  ApolloHooksObservableQuery,
+  getCacheKey,
+  getCachedObservableQuery,
+  invalidateCachedObservableQuery,
+} from './queryCache'
+import useClient from './useClient'
 
 export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, TData> & {
   clientName?: string
@@ -27,7 +27,7 @@ export type UseQueryOptions<TData, TVariables> = WatchQueryOptions<TVariables, T
   partial?: boolean
   handleError?: (
     result: ApolloQueryResult<TData>,
-    options: UseQueryOptions<TData, TVariables>
+    options: UseQueryOptions<TData, TVariables>,
   ) => void
 }
 
@@ -40,7 +40,7 @@ export type UseQueryResult<TData, TVariables> = ApolloQueryResult<TData> &
  * @deprecated if you wan't suspense support, use useSuspenseQuery instead. If you don't wan't suspense support, use useApolloQuery instead.
  */
 export function useQuery<TData = any, TVariables extends OperationVariables = OperationVariables>(
-  options: UseQueryOptions<TData, TVariables>
+  options: UseQueryOptions<TData, TVariables>,
 ): UseQueryResult<TData, TVariables> {
   const client = useClient(options.clientName)
 
@@ -84,7 +84,7 @@ export function useQuery<TData = any, TVariables extends OperationVariables = Op
       partial: false,
       networkStatus: NetworkStatus.ready,
       errors: undefined,
-      ...helpers
+      ...helpers,
     }
   }
 
@@ -100,7 +100,7 @@ export function useQuery<TData = any, TVariables extends OperationVariables = Op
 
   resultRef.current = result
 
-  if (result.errors && result.errors.length) {
+  if (result.errors?.length) {
     if (options.handleError) {
       options.handleError(result, options)
     } else {
@@ -116,6 +116,6 @@ export function useQuery<TData = any, TVariables extends OperationVariables = Op
   return {
     observableQuery,
     ...result,
-    ...helpers
+    ...helpers,
   }
 }

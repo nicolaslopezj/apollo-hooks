@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": false,
     "declaration": true,
     "declarationMap": false,
